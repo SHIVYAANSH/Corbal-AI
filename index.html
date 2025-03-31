@@ -409,16 +409,19 @@ H2{
 
     <script>
         const API_KEY = "AIzaSyALlMBZRyrD3Wyxi_7u8abRMR184uupBwY";
+
         window.onload = function() {
             const thinkingNotification = document.getElementById("thinkingNotification");
-            thinkingNotification.style.display = "None";  // Make sure it's hidden when the page loads
+            thinkingNotification.style.display = "none";  // Make sure it's hidden when the page loads
         };
+        
+        // Handle keypress for sending message
         function handleKeyPress(event) {
             if (event.key === "Enter") {
                 sendMessage();
             }
         }
-    
+        
         // Function to adjust the response length (word limit)
         function adjustResponseLength(responseText, maxWordCount) {
             const words = responseText.split(' ');
@@ -427,22 +430,23 @@ H2{
             }
             return responseText;
         }
-    
+        
         async function sendMessage() {
             const userInput = document.getElementById("userInput");
             const chatBox = document.getElementById("chatBox");
             const welcomeMessage = document.getElementById("welcomeMessage");
             const message = userInput.value.trim();
             if (message === "") return;
-            welcomeMessage.style.display = "none"; 
-    
-            addMessage(message, "user-message");
+            welcomeMessage.style.display = "none";  // Hide welcome message after user starts chatting
+        
+            addMessage(message, "user-message");  // Add user message to chat
             userInput.value = "";
-            chatBox.scrollTop = chatBox.scrollHeight;
+            chatBox.scrollTop = chatBox.scrollHeight;  // Scroll to the bottom of the chat box
+        
             // Show "AI is thinking" notification
-        const thinkingNotification = document.getElementById("thinkingNotification");
-        thinkingNotification.style.display = "flex"; // Make it visible
-    
+            const thinkingNotification = document.getElementById("thinkingNotification");
+            thinkingNotification.style.display = "flex"; // Make it visible
+        
             try {
                 const response = await axios.post(
                     "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent", 
@@ -454,43 +458,47 @@ H2{
                         params: { key: API_KEY },
                     }
                 );
-                
+        
                 const responseText = response.data.candidates[0].content.parts[0].text;
-    
+        
                 // Adjust the response length (e.g., limit to 50 words)
                 const adjustedResponse = adjustResponseLength(responseText, 50); 
-    
-                addMessage(adjustedResponse, "ai-message", true);
-                thinkingNotification.style.display = "None ";
-    
+        
+                addMessage(adjustedResponse, "ai-message", true);  // Add AI response to chat
+                thinkingNotification.style.display = "none";  // Hide "thinking" notification after response
+        
             } catch (error) {
                 console.error("Error fetching AI response:", error);
                 addMessage("Sorry, I encountered an error. Please try again.", "ai-message");
+                thinkingNotification.style.display = "none";  // Hide "thinking" notification in case of error
             }
         }
-    
+        
+        // Function to add message to chat box
         function addMessage(text, className, isAnimated = false) {
             const chatBox = document.getElementById("chatBox");
             const messageDiv = document.createElement("div");
             messageDiv.classList.add("message", className);
             chatBox.appendChild(messageDiv);
-    
+        
             if (isAnimated) {
                 typeWriterEffect(messageDiv, text);
             } else {
                 messageDiv.textContent = text;
             }
-    
-            chatBox.scrollTop = chatBox.scrollHeight;
+        
+            chatBox.scrollTop = chatBox.scrollHeight;  // Scroll to the bottom of the chat box
         }
-    
+        
+        // Function for typing animation effect
         function typeWriterEffect(element, text, i = 0) {
             if (i < text.length) {
                 element.innerHTML += text.charAt(i);
                 setTimeout(() => typeWriterEffect(element, text, i + 1), 10);
             }
         }
-    
+        
+        // Firebase configuration and authentication
         const firebaseConfig = {
             apiKey: "AIzaSyDTMX3jCepXlOWxdWxdhb5d2GmXAPotUoU",
             authDomain: "sign-6aef5.firebaseapp.com",
@@ -502,24 +510,25 @@ H2{
         };
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
-    
-        // Check if user is logged in
+        
+        // Check if user is logged in and display user info
         auth.onAuthStateChanged((user) => {
             if (user) {
                 document.getElementById("user-info").textContent = `Hi, ${user.displayName}`;
                 document.getElementById("user-img").src = user.photoURL;
             } else {
-                window.location.href = "index.html"; // Redirect to login page if not logged in
+                window.location.href = "LOGIN.html"; // Redirect to login page if not logged in
             }
         });
-    
+        
+        // Toggle sidebar visibility
         function toggleSidebar() {
             const sidebar = document.getElementById("sidebar");
             const toggleArrow = document.getElementById("toggle-arrow");
-    
+        
             // Toggle the 'minimized' class
             sidebar.classList.toggle("minimized");
-    
+        
             // Change the direction of the arrow based on the sidebar state
             if (sidebar.classList.contains("minimized")) {
                 toggleArrow.textContent = "→";  // Change to left arrow when minimized
@@ -527,7 +536,7 @@ H2{
                 toggleArrow.textContent = "←";  // Change to right arrow when expanded
             }
         }
-    
+        
     </script>
     
 </body>
