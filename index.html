@@ -3,12 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Corbel AI - Chat Assistant</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script>hljs.highlightAll();</script>
     <style>
+
+        @media (max-width: 600px) {
+            .chat-input {
+                flex-direction: column;
+                padding: 10px;
+            }
+        
+            .chat-input input {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        
+            .chat-input button {
+                width: 100%;
+            }
+        }
+@media (max-width: 600px) {
+    .message {
+        max-width: 90%;
+        font-size: 14px;
+    }
+}
+@media (max-width: 480px) {
+    h2 {
+        font-size: 30px;
+    }
+    
+    p {
+        font-size: 16px;
+    }
+}
+body {
+    overflow-x: hidden;
+}
+        
         
 
 
@@ -84,6 +121,7 @@
         color: #fff;
     }
     .chat-container {
+      
         width: 500vh;
         max-width: 1000px;
         height: 89vh;
@@ -94,6 +132,9 @@
         flex-direction: column;
         box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.3);
         border: 1px solid rgba(255, 255, 255, 0.2);
+        width: 150vh;
+    
+    height: 89vh;
     }
     .chat-header {
         background: rgba(255, 255, 255, 0.2);
@@ -136,7 +177,7 @@
     .chat-input {
         display: flex;
         padding: 15px;
-        background: rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.103);
         border-bottom-left-radius: 20px;
         border-bottom-right-radius: 20px;
     }
@@ -163,7 +204,7 @@
         border: none;
         padding: 12px 18px;
         margin-left: 10px;
-        border-radius: 8px;
+        border-radius: 50px;
         cursor: pointer;
         font-size: 16px;
         transition: 0.3s;
@@ -361,6 +402,10 @@ H2{
 .fade-out {
     animation: fadeOut 0.5s forwards;
 }
+h3{
+    text-align: center;
+    color:#A0AEC0
+}
 
     </style>
 </head>
@@ -374,7 +419,7 @@ H2{
 
    
     <div class="chat-container">
-        <div class="chat-header">Corbel AI - Chat Assistant</div>
+        <div class="chat-header">Corbel AI </div>
         <div class="chat-box" id="chatBox">
             <div class="welcome-message" id="welcomeMessage">
                 <img id="user-img" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIAJQAowMBIgACEQEDEQH/xAAbAAEAAgMBAQAAAAAAAAAAAAAABgcDBAUCAf/EADUQAAICAQIEAgcGBwEAAAAAAAABAgMEBREGITFBUWESE3GBkaGxQlJywdHhFCMlMjNigiL/xAAWAQEBAQAAAAAAAAAAAAAAAAAAAQL/xAAWEQEBAQAAAAAAAAAAAAAAAAAAARH/2gAMAwEAAhEDEQA/ALSABpkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADmZev6XiScbMqEprrGtOe3wCumDi1cUaTZL0XfOHnOtpfE61F9ORWrMe2FkH0lCW6AyAAIAAAAAAAAAAAAAAAAAAAeLroUUzuumoVwW8pPsj2Q7jbUXO2Gn1SfoQ2nZt3fZP3cwOfrnEORqU5VUt1YvRQT2cvN/ocUAuIGxg52TgXeuxLHCffwftXc1wCLI0LWa9Wx29lC+H+Svw815HTKv0zNs07Nryat24f3RXdd0WbVZC6qFtb3hOKkn5PmRXsAAAAAAAAAAAAAAAAAAF1Ks1G+WTn5F8m252Sfu35fItPbfdeKKmtW1s14SYHkAGkAAKQLB4Qvd2hVRk93VKUF7N918mV8TvgmLWjzf3rn9EZVIAAAAAAAAAAAAAAAAAAARWWuY7xdXy6duXrHKPsfNfUs0jHGWlSvqjnY8d7Kl6NiXVw8fd9AIWBsDSAAIoWPwzjvG0PFjJbSnF2P/AKe/0aIXoGlz1PPhBx/kQfpWy7beHtZY6SSSSSS6eRB9AAAAAAAAAAAAAAAAAAAAARzVuFMfKsd2DNUWSe7ra3g3+RH7uGNWqk0sdWLxrmn8nzLCbSi5S5JeL5GpZqmn1P0bc7HT8PWICCQ4d1eT2/gpr8Uor8zp4HB983GWffGqHeNf/p/HoiTQ1jS5PZZ+On+M26bqr1vTbCxeNck/oBjw8OjBojRi1qFa8O/m/EzgAAAAAAAAAAAAAAAAAADm65rFOk0KU16d09/V177b+b8gNrNzMfBpduVaq4efV+xET1Hi++1uGn1qmHayxbyfu6I4Gdm5Gfe78qxzm+i7R8kuxrgZsrLycuXpZN1lr/3luYenToAXED7FuElKDcZL7S5M+AYOzgcS6jiNKdvr619m3m/j1RK9I4gxNTagm6b+9U319j7ldhPZprk1z3XZhYtsET4c4lcpQw9Rnu21Gu5/SX6ksIAAAAAAAAAAAAADV1LOq07DsybuaguUfvPsitc7MuzsqeRfLec348kuyXkdrjPUHkZ6xK5fysfrt9qfd+7l8yPAAAVKAAoAAAAABNuEdZeXV/BZMt7q1vCT6zj4e1EJMuLkW4uTXkUy2srkmmRVrAw4eTDLxasir+yyKkl4GYgAAAAAAAAGHLvjjYt2RPpVBzfnstzMcfiy11aFkbcvWOMPc3+zAr6yc7Zysse85tyb82eQCxKAAoAAAAAAAAAAiprwPlOzCuxZvd0z9KP4ZfuvmSYgvBFrhq1lfayl7+5p/qTogAAAAAAAAHA41f8ARkvG6H5n0AQIAFjIACqAAAAAAAAAADtcIPbXavOE/oWC+oBFgACAAAP/2Q==" alt="User Profile">
@@ -388,31 +433,43 @@ H2{
             </div>
             
             <div class="chat-box" id="chatBox">
+
+                
    
     
    
 </div>
 
+
         </div>
         <div class="chat-input">
             <input type="text" id="userInput" placeholder="Type to change the world..." onkeypress="handleKeyPress(event)">
-            <button onclick="sendMessage()">Send</button>
+            <br>
+
+ 
+           <b> <button id="send-btn"onclick="sendMessage()">Send</button><br>
+        
         </div>
+       <h3>**AI can make errors**</h3>
     </div>
+    
     <div id="thinkingNotification" class="thinking-notification">
         <span> thinking...</span>
         <span id="notificationBadge" class="notification-badge">!</span>
     </div>
+    
     
 
     
 
     <script>
         const API_KEY = "AIzaSyALlMBZRyrD3Wyxi_7u8abRMR184uupBwY";
-
-        window.onload = function() {
+        let typingInProgress = false;
+        let typingTimeout;
+        
+        window.onload = function () {
             const thinkingNotification = document.getElementById("thinkingNotification");
-            thinkingNotification.style.display = "none";  // Make sure it's hidden when the page loads
+            thinkingNotification.style.display = "none"; // Make sure it's hidden when the page loads
         };
         
         // Handle keypress for sending message
@@ -426,22 +483,31 @@ H2{
         function adjustResponseLength(responseText, maxWordCount) {
             const words = responseText.split(' ');
             if (words.length > maxWordCount) {
-                return words.slice(0, maxWordCount).join(' ') + '...';  // Truncate and add '...'
+                return words.slice(0, maxWordCount).join(' ') + '...'; // Truncate and add '...'
             }
             return responseText;
         }
         
         async function sendMessage() {
+            const sendbtn = document.getElementById("send-btn");
+            if (sendbtn.innerText === "stop") {
+                stopTypingEffect();
+                return;
+            }
+            
             const userInput = document.getElementById("userInput");
             const chatBox = document.getElementById("chatBox");
             const welcomeMessage = document.getElementById("welcomeMessage");
             const message = userInput.value.trim();
             if (message === "") return;
-            welcomeMessage.style.display = "none";  // Hide welcome message after user starts chatting
+            welcomeMessage.style.display = "none"; // Hide welcome message after user starts chatting
         
-            addMessage(message, "user-message");  // Add user message to chat
+            addMessage(message, "user-message"); // Add user message to chat
+            userInput.disabled = true;
+            sendbtn.innerText = 'stop';
+        
             userInput.value = "";
-            chatBox.scrollTop = chatBox.scrollHeight;  // Scroll to the bottom of the chat box
+            chatBox.scrollTop = chatBox.scrollHeight; // Scroll to the bottom of the chat box
         
             // Show "AI is thinking" notification
             const thinkingNotification = document.getElementById("thinkingNotification");
@@ -449,7 +515,7 @@ H2{
         
             try {
                 const response = await axios.post(
-                    "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent", 
+                    "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent",
                     {
                         contents: [{ role: "user", parts: [{ text: message }] }],
                     },
@@ -461,16 +527,16 @@ H2{
         
                 const responseText = response.data.candidates[0].content.parts[0].text;
         
-                // Adjust the response length (e.g., limit to 50 words)
-                const adjustedResponse = adjustResponseLength(responseText, 50); 
+                // Adjust the response length (e.g., limit to 500 words)
+                const adjustedResponse = adjustResponseLength(responseText, 500);
         
-                addMessage(adjustedResponse, "ai-message", true);  // Add AI response to chat
-                thinkingNotification.style.display = "none";  // Hide "thinking" notification after response
+                addMessage(adjustedResponse, "ai-message", true); // Add AI response to chat with animation
+                thinkingNotification.style.display = "none"; // Hide "thinking" notification after response
         
             } catch (error) {
                 console.error("Error fetching AI response:", error);
                 addMessage("Sorry, I encountered an error. Please try again.", "ai-message");
-                thinkingNotification.style.display = "none";  // Hide "thinking" notification in case of error
+                thinkingNotification.style.display = "none"; // Hide "thinking" notification in case of error
             }
         }
         
@@ -482,20 +548,33 @@ H2{
             chatBox.appendChild(messageDiv);
         
             if (isAnimated) {
+                typingInProgress = true;
                 typeWriterEffect(messageDiv, text);
             } else {
                 messageDiv.textContent = text;
             }
         
-            chatBox.scrollTop = chatBox.scrollHeight;  // Scroll to the bottom of the chat box
+            chatBox.scrollTop = chatBox.scrollHeight; // Scroll to the bottom of the chat box
         }
         
         // Function for typing animation effect
         function typeWriterEffect(element, text, i = 0) {
+            if (!typingInProgress) return; // Stop animation if interrupted
+            
             if (i < text.length) {
                 element.innerHTML += text.charAt(i);
-                setTimeout(() => typeWriterEffect(element, text, i + 1), 10);
+                typingTimeout = setTimeout(() => typeWriterEffect(element, text, i + 1), 10);
+            } else {
+                stopTypingEffect();
             }
+        }
+        
+        // Function to stop typing animation
+        function stopTypingEffect() {
+            typingInProgress = false;
+            clearTimeout(typingTimeout);
+            document.getElementById("userInput").disabled = false;
+            document.getElementById("send-btn").innerText = 'Send';
         }
         
         // Firebase configuration and authentication
@@ -520,23 +599,11 @@ H2{
                 window.location.href = "LOGIN.html"; // Redirect to login page if not logged in
             }
         });
+
         
-        // Toggle sidebar visibility
-        function toggleSidebar() {
-            const sidebar = document.getElementById("sidebar");
-            const toggleArrow = document.getElementById("toggle-arrow");
         
-            // Toggle the 'minimized' class
-            sidebar.classList.toggle("minimized");
-        
-            // Change the direction of the arrow based on the sidebar state
-            if (sidebar.classList.contains("minimized")) {
-                toggleArrow.textContent = "→";  // Change to left arrow when minimized
-            } else {
-                toggleArrow.textContent = "←";  // Change to right arrow when expanded
-            }
-        }
-        
+   
+
     </script>
     
 </body>
