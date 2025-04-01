@@ -12,6 +12,143 @@
     <script>hljs.highlightAll();</script>
     <style>
 
+
+
+
+
+        .menu-container {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 1000; /* Ensures it stays above other elements */
+        }
+        
+        .menu-icon {
+            font-size: 24px;
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.7); /* Optional: Background for better visibility */
+            color: white;
+            padding: 5px;
+            border-radius: 5px;
+        }
+        
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 40px; /* Push it below the menu icon */
+            right: 0;
+            background: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            width: 150px;
+        }
+        
+        .dropdown-menu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .dropdown-menu li {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .dropdown-menu li:last-child {
+            border-bottom: none;
+        }
+        
+        .dropdown-menu a {
+            text-decoration: none;
+            color: black;
+            display: block;
+        }
+        
+        .dropdown-menu a:hover {
+            background: #f1f1f1;
+        }
+        
+        /* Show dropdown when active */
+        .menu-container.active .dropdown-menu {
+            display: block;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #f4f4f4;
+        }
+        .chat-container {
+            width: 90%;
+            max-width: 400px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .chat-header {
+            background: #007bff;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 18px;
+        }
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            max-height: 60vh;
+        }
+        .chat-input {
+            display: flex;
+            border-top: 1px solid #ddd;
+            padding: 10px;
+            background: #fff;
+        }
+        .chat-input input {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            outline: none;
+            border-radius: 5px;
+            background: #f0f0f0;
+        }
+        .chat-input button {
+            margin-left: 10px;
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .chat-input button:hover {
+            background: #0056b3;
+        }
+        @media (max-width: 600px) {
+            .chat-container {
+                width: 95%;
+                max-height: 80vh;
+            }
+            .chat-header {
+                font-size: 16px;
+                padding: 10px;
+            }
+            .chat-input input {
+                font-size: 14px;
+            }
+        }
+
         @media (max-width: 600px) {
             .chat-input {
                 flex-direction: column;
@@ -422,7 +559,7 @@ h3{
     background-color: #e04d4d;
 }
 .menu-container {
-    position: relative;
+    position: fixed;
     display: inline-block;
     cursor: pointer;
   }
@@ -467,6 +604,89 @@ h3{
   .dropdown-menu ul li:hover {
     background-color: #ddd;
   }
+
+/* Follow me for more pens like this! */
+
+
+
+  /* Container for the menu on the right */
+
+  /* Basic styling for chat header */
+.chat-header {
+    font-size: 24px;
+    font-weight: bold;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Menu container that holds the dropdown button and dropdown menu */
+.menu-container {
+    position: fixed;
+    display: inline-block;
+    cursor: pointer;
+}
+
+/* Left-side menu container for Model Version */
+.left-menu {
+    left: 10px; /* Positioned to the left */
+    top: 10px; /* Positioned 10px from the top */
+}
+
+/* Button styling for the dropdown (Show selected model) */
+.dropdown-btn {
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 200px;
+}
+
+/* General styling for dropdown menus */
+.dropdown-menu {
+    border-radius: 5px;
+    display: none; /* Hidden by default */
+    position: absolute;
+    top: 35px; /* Distance from the button */
+    left: 0; /* Align dropdown to the left of the button */
+    background-color: #f9f9f9;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+/* List styling for dropdown items */
+.dropdown-menu ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Styling for each list item inside the dropdown */
+.dropdown-menu ul li {
+    border-radius: 5px;
+    padding: 8px 16px;
+}
+
+/* Links inside dropdown menu */
+.dropdown-menu ul li a {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-decoration: none;
+    color: black;
+}
+
+/* Hover effect for dropdown items */
+.dropdown-menu ul li:hover {
+    background-color: #ddd;
+}
+
+/* Show dropdown when active */
+.menu-container.active .dropdown-menu {
+    display: block;
+}
+
+  
     </style>
 </head>
 
@@ -495,6 +715,14 @@ h3{
               </ul>
             </div>
           </div>
+          <!-- Menu Container for Model Version Selection (Left Side) -->
+
+       
+
+
+          
+               
+       
        
         <div class="chat-box" id="chatBox">
           
@@ -599,7 +827,7 @@ h3{
                 stopTypingEffect();
                 return;
             }
-            
+        
             const userInput = document.getElementById("userInput");
             const chatBox = document.getElementById("chatBox");
             const welcomeMessage = document.getElementById("welcomeMessage");
@@ -622,7 +850,7 @@ h3{
                 const response = await axios.post(
                     "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent",
                     {
-                        contents: [{ role: "user", parts: [{ text: message }] }],
+                        contents: [{ role: "user", parts: [{ text: message }] }], 
                     },
                     {
                         headers: { "Content-Type": "application/json" },
@@ -630,7 +858,41 @@ h3{
                     }
                 );
         
-                const responseText = response.data.candidates[0].content.parts[0].text;
+                let responseText = response.data.candidates[0].content.parts[0].text;
+        
+                // Check if the response contains the specific phrase
+                const unwantedPhrases = [
+            "I am a large language model, trained by Google.",
+            "As a large language model, I am developed in Google.",
+            "As a large language model, I am developed in Google. I can access and process information from Google Search and other Google products to answer your questions in a comprehensive and informative way. So, in a way, you can think of me as being 'from' Google.",
+            "I am an AI model developed by OpenAI.",
+            "I am an AI created by OpenAI to assist you.",
+            "I am a product of OpenAI and can help you with various tasks.",
+            "I am a machine learning model built to provide information.",
+            "I am powered by machine learning and artificial intelligence.",
+            "I am an AI model designed to help you find information.",
+            "I am a neural network trained by OpenAI to answer questions."
+        ]; const customResponses = [
+        "I am Corbel AI, trained by Corbel Research.",
+        "Hello! I am Corbel AI, created by Corbel Research to assist you.",
+        "I am Corbel AI, here to help you with any questions you may have.",
+        "Corbel AI, at your service! Powered by Corbel Research.",
+        "I am a part of Corbel Research's AI initiative to assist you.",
+        "I'm Corbel AI, developed by Corbel Research. How can I help?"
+    ];
+
+
+    for (const phrase of unwantedPhrases) {
+        if (responseText.includes(phrase)) {
+            // Select a random response from the customResponses array
+            responseText = customResponses[Math.floor(Math.random() * customResponses.length)];
+            break;
+        }
+    }
+
+
+
+   
         
                 // Adjust the response length (e.g., limit to 500 words)
                 const adjustedResponse = adjustResponseLength(responseText, 500);
@@ -690,7 +952,7 @@ h3{
             firebase.auth().signOut()
                 .then(() => {
                  
-                    window.location.href = "LOGIN.html"; // Redirect to login page after sign out
+                    window.location.href = "login.html"; // Redirect to login page after sign out
                 })
                 .catch((error) => {
                     console.error("Error signing out: ", error);
@@ -715,6 +977,26 @@ h3{
             }
           }
 
+        
+          // Function to toggle the visibility of the dropdown menus
+function toggleMenu2() {
+    const menu = document.getElementById(menuId);
+    if (menu.style.display === 'block') {
+        menu.style.display = 'none';
+    } else {
+        menu.style.display = 'block';
+    }
+}
+
+// Function to set the selected model version in the dropdown
+function selectModel(modelName) {
+    const dropdownBtn = document.querySelector('.dropdown-btn');
+    dropdownBtn.innerHTML = `: ${modelName}`; // Update button text with the selected model
+    toggleMenu('dropdownMenuModel'); // Close the dropdown after selection
+}
+
+        
+     
         
         
    
