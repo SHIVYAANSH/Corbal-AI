@@ -329,26 +329,21 @@
             storageBucket: "sign-6aef5.firebasestorage.app",
             messagingSenderId: "722689805567",
             appId: "1:722689805567:web:0e14363804ab48a112d0ca",
-            measurementId: "G-VGBW9W4XDJ"
+            measurementId: "G-DK6BF0ZV1M"
         };
-
         firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
 
         function googleSignIn() {
             const provider = new firebase.auth.GoogleAuthProvider();
-            firebase.auth().signInWithPopup(provider).then((result) => {
-                console.log(result.user);
-            }).catch((error) => {
-                console.error(error);
-            });
+            auth.signInWithPopup(provider)
+                .then((result) => {
+                    window.location.href = "index.html";  // Redirect to the home page
+                })
+                .catch((error) => {
+                    alert(error.message);
+                });
         }
-   
-            window.onload = function() {
-                var sonicLogo = document.getElementById("sonicLogo");
-                sonicLogo.play();
-            };
-       
-        
     </script>
 
 </body>
